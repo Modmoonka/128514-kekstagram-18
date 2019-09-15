@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Татьяна qwerty](https://up.htmlacademy.ru/javascript/18/user/128514).
-* Наставник: `Неизвестно`.
+* Наставник: `Сергей Шершнев`.
 
 ---
 
