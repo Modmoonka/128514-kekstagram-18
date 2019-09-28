@@ -39,7 +39,7 @@ var fragment = document.createDocumentFragment();
 for (var i = 1; i <= COUNT_ARRAY; i++) {
   var objDescription = {};
   objDescription.url = 'photos/' + i + '.jpg';
-  objDescription.description = getRandomNumber(0, DESCRIPTION_PICTURE.length - 1);
+  objDescription.description = DESCRIPTION_PICTURE[getRandomNumber(0, DESCRIPTION_PICTURE.length - 1)];
   objDescription.likes = getRandomNumber(15, 200);
   var randomComment = getRandomNumber(1, 5);
   comments = [];
