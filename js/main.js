@@ -42,13 +42,14 @@ for (var i = 1; i <= COUNT_ARRAY; i++) {
   objDescription.description = getRandomNumber(0, DESCRIPTION_PICTURE.length - 1);
   objDescription.likes = getRandomNumber(15, 200);
   var randomComment = getRandomNumber(1, 5);
+  comments = [];
   for (var j = 1; j < randomComment; j++) {
-    comments[j] = createComment(NAMES_AVTOR, MASSAGE);
+    comments[j - 1] = createComment(NAMES_AVTOR, MASSAGE);
   }
   objDescription.comments = comments;
-  descriptionFoto[i] = objDescription;
+  descriptionFoto[i - 1] = objDescription;
 
-  fragment.appendChild(createTemplatePicture(templatePicture, descriptionFoto[i]));
+  fragment.appendChild(createTemplatePicture(templatePicture, descriptionFoto[i - 1]));
 }
 
 picture.appendChild(fragment);
