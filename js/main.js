@@ -43,7 +43,7 @@ for (var i = 1; i <= COUNT_ARRAY; i++) {
   objDescription.likes = getRandomNumber(15, 200);
   var randomComment = getRandomNumber(1, 5);
   comments = [];
-  for (var j = 1; j < randomComment; j++) {
+  for (var j = 1; j <= randomComment; j++) {
     comments[j - 1] = createComment(NAMES_AVTOR, MASSAGE);
   }
   objDescription.comments = comments;
