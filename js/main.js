@@ -29,7 +29,7 @@ var createTemplatePicture = function (template, object) {
   var cloneElement = template.cloneNode(true);
   cloneElement.querySelector('.picture__img').src = object.url;
   cloneElement.querySelector('.picture__likes').textContent = object.likes;
-  cloneElement.querySelector('.picture__comments').textContent = object.comments;
+  cloneElement.querySelector('.picture__comments').textContent = object.comments.length;
   return cloneElement;
 };
 
