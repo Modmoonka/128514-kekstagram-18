@@ -41,7 +41,7 @@ var createTemplatePicture = function (template, object) {
   return cloneElement;
 };
 
-var showDescriptionFoto = function () {
+var createDescriptionFoto = function () {
   for (var i = 1; i <= COUNT_ARRAY; i++) {
     var objDescription = {};
     objDescription.url = 'photos/' + i + '.jpg';
@@ -53,10 +53,14 @@ var showDescriptionFoto = function () {
       objDescription.comments[j] = createComment(NAMES_AVTOR, MASSAGE);
     }
     descriptionFoto[i - 1] = objDescription;
+  }
+};
 
+var showDescriptionFoto = function () {
+  createDescriptionFoto();
+  for (var i = 1; i <= COUNT_ARRAY; i++) {
     fragment.appendChild(createTemplatePicture(templatePicture, descriptionFoto[i - 1]));
   }
-
   picture.appendChild(fragment);
 };
 
