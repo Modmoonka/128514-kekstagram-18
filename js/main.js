@@ -64,7 +64,7 @@ var createDescriptionFoto = function () {
 var showDescriptionFoto = function () {
   createDescriptionFoto();
   for (var i = 1; i <= COUNT_ARRAY; i++) {
-    fragment.appendChild(createTemplatePicture(templatePicture, descriptionFoto[i - 1]));
+    fragment.appendChild(createTemplatePicture(templatePicture, descriptionFoto[i - 1])).accessKey = i;
   }
   picture.appendChild(fragment);
 };
@@ -80,25 +80,26 @@ var getComments = function (template, objAutor) {
 var showBigFoto = function (object) {
   var bigPicture = document.querySelector('.big-picture');
   var socialComments = document.querySelector('.social__comments');
-  var fragmentComment = document.createDocumentFragment();
   bigPicture.classList.remove('hidden');
   bigPicture.querySelector('.big-picture__img').children[0].src = object.url;
   bigPicture.querySelector('.likes-count').textContent = object.likes;
   bigPicture.querySelector('.comments-count').textContent = object.comments.length;
   bigPicture.querySelector('.social__caption').textContent = object.description;
-  for (var k = 0; k <= object.comments.length - 1; k++) {
-    fragmentComment.appendChild(getComments(templateCommentsHTML, object.comments[k]));
+  while (socialComments.firstChild) {
+    socialComments.removeChild(socialComments.firstChild);
   }
-  socialComments.appendChild(fragmentComment);
+  for (var k = 0; k <= object.comments.length - 1; k++) {
+    fragment.appendChild(getComments(templateCommentsHTML, object.comments[k]));
+  }
+  socialComments.appendChild(fragment);
   return bigPicture;
 };
 
 showDescriptionFoto();
-// showBigFoto(descriptionFoto[0]);
 
 var hashTag = getQuery('.text__hashtags');
 var formImgUpload = getQuery('.img-upload__form');
-var formSubmit = getQuery('.img-upload__submit');
+var formSubmitImg = getQuery('.img-upload__submit');
 
 // Загрузка изображения и показ формы редактирования
 
@@ -218,7 +219,7 @@ function contains(elements, needle) {
 
 var hashTagValidator = new HashTagValidator();
 
-formSubmit.addEventListener('click', function () {
+formSubmitImg.addEventListener('click', function () {
   if (hashTagValidator.checkValidity(hashTag.value) === false) {
     var customValidityMessage = hashTagValidator.getInvalidities();
     hashTag.setCustomValidity(customValidityMessage);
@@ -232,3 +233,84 @@ formSubmit.addEventListener('click', function () {
 line.addEventListener('mouseup', function (evt) {
   writeCoordinateLevelPin(evt);
 });
+
+// Показ выбранных фото
+var openBigFoto = function (evt) {
+  var accessKey;
+  if (evt.keyCode === ENTER_KEYCODE) {
+    accessKey = evt.path[0].accessKey - 1;
+  } else {
+    accessKey = evt.path[1].accessKey - 1;
+  }
+  if (accessKey >= 0) {
+    showBigFoto(descriptionFoto[accessKey]);
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === ESC_KEYCODE) {
+        closeBigFoto();
+      }
+    });
+  }
+}
+
+document.addEventListener('click', function (evt) {
+  openBigFoto(evt);
+});
+
+document.addEventListener('keydown', function (evt) {
+  openBigFoto(evt);
+});
+
+// Закрытие большой фотки
+
+var closeBigFoto = function () {
+  getQuery('.big-picture').classList.add('hidden');
+};
+
+getQuery('.big-picture__cancel').addEventListener('click', function () {
+  closeBigFoto();
+});
+
+// Валидация коментариев
+var formSubmitComments = getQuery('.social__footer-btn');
+var comment = getQuery('.social__footer-text');
+
+function CommentsValidator() {}
+
+CommentsValidator.prototype = {
+  invalidities: [],
+  checkValidity: function (input) {
+    if (isBlank(input)) {
+      this.invalidities = [];
+    } else {
+      this.invalidities = [];
+      if (input.length > 140) {
+        this.addInvalidity('Слишком длинный комментарий. Длина комментария, не более 140 символов');
+      }
+      return this.invalidities.length === 0;
+    }
+  },
+  addInvalidity: function (message) {
+    if (!contains(this.invalidities, message)) {
+      this.invalidities.push(message);
+    }
+  },
+  getInvalidities: function () {
+    return this.invalidities.join('. \n');
+  }
+};
+
+var commentsValidator = new CommentsValidator();
+
+formSubmitComments.addEventListener('click', function () {
+  if (commentsValidator.checkValidity(comment.value) === false) {
+    var customValidityMessageComments = commentsValidator.getInvalidities();
+    comment.setCustomValidity(customValidityMessageComments);
+  } else {
+    comment.setCustomValidity('');
+    sendComment();
+  }
+});
+
+function sendComment() {
+
+}
