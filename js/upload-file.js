@@ -8,7 +8,7 @@
   });
 
   var onPopupEscPress = function (evt) {
-    if (evt.keyCode === window.util.ESC_KEYCODE) {
+    if (evt.keyCode === window.util.KEYCODE.ESC) {
       closePopup();
     }
   };
@@ -23,13 +23,13 @@
   });
 
   document.querySelector('.img-upload__cancel').addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.util.ENTER_KEYCODE) {
+    if (evt.keyCode === window.util.KEYCODE.ENTER) {
       closePopup();
     }
   });
 
   document.querySelector('.img-upload__cancel').addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.util.ESC_KEYCODE) {
+    if (evt.keyCode === window.util.KEYCODE.ESC) {
       closePopup();
     }
   });
@@ -38,13 +38,34 @@
   var depth = document.querySelector('.effect-level__depth');
   var pin = document.querySelector('.effect-level__pin');
 
-  function writeCoordinateLevelPin(evt) {
-    var offset = ((evt.offsetX * 100) / line.offsetWidth) + '%';
-    pin.style.left = offset;
-    depth.style.width = offset;
-  }
+  line.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+    var percentage = evt.target === pin ? pin.offsetLeft : (evt.offsetX * 100 / line.offsetWidth) + '%';
+    depth.style.width = percentage;
+    pin.style.left = percentage;
+    var startCoords = {
+      x: evt.clientX
+    };
 
-  line.addEventListener('mouseup', function (evt) {
-    writeCoordinateLevelPin(evt);
+    var onMouseMove = function (moveEvt) {
+      var shift = {
+        x: startCoords.x - moveEvt.clientX
+      };
+
+      startCoords = {
+        x: moveEvt.clientX
+      };
+      percentage = (window.util.bound(0, line.offsetWidth, pin.offsetLeft - shift.x) * 100 / line.offsetWidth) + '%';
+      depth.style.width = percentage;
+      pin.style.left = percentage;
+    };
+
+    var onMouseUp = function () {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   });
 })();

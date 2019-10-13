@@ -6,46 +6,42 @@
   var formImgUpload = document.querySelector('.img-upload__form');
   var formSubmitImg = document.querySelector('.img-upload__submit');
 
-  function isBlank(text) {
-    return text === undefined || text === null || text.trim() === '';
-  }
-
   function HashTagValidator() {}
 
   HashTagValidator.prototype = {
     invalidities: [],
     checkValidity: function (input) {
-      if (isBlank(input)) {
+      if (window.util.isBlank(input)) {
         this.invalidities = [];
       } else {
         this.invalidities = [];
         var tags = input.split(' ');
         if (tags.length > 5) {
           // Too much tags
-          this.addInvalidity('Слишком много тегов');
+          this.addInvalidity(window.messages.COMMENT_BODY_TOO_MUCH_TAG);
         } else {
           var validated = [];
           for (var i = 0; i < tags.length; i++) {
             var tag = tags[i];
             if (!tag.startsWith('#')) {
               // Тэг не начинается с решетки
-              this.addInvalidity('Tэг начинается не с решетки');
+              this.addInvalidity(window.messages.COMMENT_BODY_TAG_NOT_BEGIN_WITH);
             }
             if (tag.length >= 20) {
               // Tag is too long
-              this.addInvalidity('Тег слишком длинный');
+              this.addInvalidity(window.messages.COMMENT_BODY_VERY_TOO_LONG);
             }
             if (tag.length <= 1) {
               // Tag is too short (the pound sign only)
-              this.addInvalidity('Тег слишком короткий');
+              this.addInvalidity(window.messages.COMMENT_BODY_TOO_SHORT);
             }
-            if (contains(tag.substring(1), '#')) {
+            if (window.util.contains(tag.substring(1), '#')) {
               // Tags are not separated by whitespace
-              this.addInvalidity('Теги не разделены пробелами');
+              this.addInvalidity(window.messages.COMMENT_BODY_NOT_SEPARATED_BY_SPASEC);
             }
-            if (contains(validated, tag.toLowerCase())) {
+            if (window.util.contains(validated, tag.toLowerCase())) {
               // Tag meets twice
-              this.addInvalidity('Тег всречается дважды');
+              this.addInvalidity(window.messages.COMMENT_BODY_TAG_MEETS_TWICE);
             }
 
             validated.push(tag.toLowerCase());
@@ -55,7 +51,7 @@
       return this.invalidities.length === 0;
     },
     addInvalidity: function (message) {
-      if (!contains(this.invalidities, message)) {
+      if (!window.util.contains(this.invalidities, message)) {
         this.invalidities.push(message);
       }
     },
@@ -63,18 +59,6 @@
       return this.invalidities.join('. \n');
     }
   };
-
-
-  function contains(elements, needle) {
-    var seen = false;
-    for (var i = 0; i < elements.length; i++) {
-      seen = elements[i] === needle;
-      if (seen) {
-        break;
-      }
-    }
-    return seen;
-  }
 
   var hashTagValidator = new HashTagValidator();
 
@@ -98,18 +82,18 @@
   CommentsValidator.prototype = {
     invalidities: [],
     checkValidity: function (input) {
-      if (isBlank(input)) {
+      if (window.util.isBlank(input)) {
         this.invalidities = [];
       } else {
         this.invalidities = [];
         if (input.length > 5) {
-          this.addInvalidity('Слишком длинный комментарий. Длина комментария, не более 140 символов');
+          this.addInvalidity(window.messages.COMMENT_BODY_TOO_LONG);
         }
       }
       return this.invalidities.length === 0;
     },
     addInvalidity: function (message) {
-      if (!contains(this.invalidities, message)) {
+      if (!window.util.contains(this.invalidities, message)) {
         this.invalidities.push(message);
       }
     },
@@ -132,5 +116,5 @@
 
   function sendComment() {
     console.log('Форма отправилась');
-  };
+  }
 })();

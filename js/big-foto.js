@@ -34,7 +34,7 @@
   // Показ выбранных фото
   var openBigFoto = function (evt) {
     var accessKey;
-    if (evt.keyCode === window.util.ENTER_KEYCODE) {
+    if (evt.keyCode === window.util.KEYCODE.ENTER) {
       accessKey = evt.path[0].accessKey - 1;
     } else {
       accessKey = evt.path[1].accessKey - 1;
@@ -42,7 +42,7 @@
     if (accessKey >= 0) {
       showBigFoto(window.util.descriptionFoto[accessKey]);
       document.addEventListener('keydown', function (e) {
-        if (e.keyCode === window.util.ESC_KEYCODE) {
+        if (e.keyCode === window.util.KEYCODE.ESC) {
           closeBigFoto();
         }
       });
