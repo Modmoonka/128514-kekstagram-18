@@ -115,6 +115,5 @@
   });
 
   function sendComment() {
-    console.log('Форма отправилась');
   }
 })();
