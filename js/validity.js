@@ -72,7 +72,7 @@
     }
   });
 
-  // validation comments
+  // validation comment
 
   var formSubmitComments = document.querySelector('.social__footer-btn');
   var comment = document.querySelector('.social__footer-text');
