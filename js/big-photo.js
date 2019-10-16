@@ -40,7 +40,7 @@
       accessKey = evt.path[1].accessKey - 1;
     }
     if (accessKey >= 0) {
-      showBigFoto(window.util.descriptionFoto[accessKey]);
+      showBigFoto(window.util.descriptionPhoto[accessKey]);
       document.addEventListener('keydown', function (e) {
         if (e.keyCode === window.util.KEYCODE.ESC) {
           closeBigFoto();

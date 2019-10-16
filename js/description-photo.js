@@ -14,13 +14,8 @@
     return cloneElement;
   };
 
-  var showDescriptionFoto = function () {
-    // window.util.createDescriptionFoto();
-    for (var i = 1; i <= window.util.COUNT_PICTURES_ON_PAGE; i++) {
-      window.util.fragment.appendChild(createTemplatePicture(templatePicture, window.util.descriptionFoto[i - 1])).accessKey = i;
-    }
-    picture.appendChild(window.util.fragment);
-  };
-
-  showDescriptionFoto();
+  for (var i = 1; i <= window.util.COUNT_PICTURES_ON_PAGE; i++) {
+    window.util.fragment.appendChild(createTemplatePicture(templatePicture, window.util.descriptionPhoto[i - 1])).accessKey = i;
+  }
+  picture.appendChild(window.util.fragment);
 })();
