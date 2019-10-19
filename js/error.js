@@ -6,18 +6,21 @@
     .content
     .querySelector('.error');
 
-  var createErrorTemplate = function (template, message, buttonsFlag, buttonNameAgain, buttonNameCancel) {
-    var cloneElement = template.cloneNode(true);
-    cloneElement.querySelector('.error__title').textContent = message;
-    if (buttonsFlag) {
-      template.querySelector('.error__buttons').classList.remove('hidden');
-      cloneElement.querySelectorAll('.error__button')[0].textContent = buttonNameAgain;
-      cloneElement.querySelectorAll('.error__button')[1].textContent = buttonNameCancel;
+  var createErrorTemplate = function (message, buttonsFormError, buttonName) {
+    if (buttonsFormError) {
+      errorTemplate.querySelector('.error__buttons').classList.remove('hidden');
+      for (var i = 0; i <= buttonName.length - 1; i++) {
+        var button = document.createElement('button');
+        button.className = 'error__button';
+        button.type = 'button';
+        button.textContent = buttonName[i];
+        errorTemplate.querySelector('.error__buttons').appendChild(button);
+      }
     }
+    var cloneElement = errorTemplate.cloneNode(true);
+    cloneElement.querySelector('.error__title').textContent = message;
     return cloneElement;
   };
-
-  window.util.fragment.appendChild(createErrorTemplate(errorTemplate, window.error, false, '123', '123'));
-  // console.log(main);
-  main.appendChild(window.util.fragment);
+  window.fragment.appendChild(createErrorTemplate(window.util.error, window.util.buttonsFormError, window.util.buttonName));
+  main.appendChild(window.fragment);
 })();

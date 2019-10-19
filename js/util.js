@@ -1,22 +1,18 @@
 'use strict';
 
 (function () {
-  var modules = ['description-photo', 'big-photo', 'upload-file', 'messages', 'validity'];
-  window.util = {};
-  var fragment = document.createDocumentFragment();
-  window.util.fragment = fragment;
+  var modulesSuccess = ['description-photo', 'big-photo', 'upload-file', 'messages', 'validity'];
+  var modulesError = ['error'];
 
-  var onError = function (message) {
-    window.error = message;
-    fragment.remove;
-    var script = document.createElement('script');
-    script.setAttribute('src', 'js/error.js');
-    document.head.appendChild(script);
+  var onError = function () {
+    window.fragment = document.createDocumentFragment();
+    connectionSkripts(modulesError, 'head');
   };
 
   var onSuccess = function (data) {
     var descriptionPhoto = data;
     var COUNT_PICTURES_ON_PAGE = descriptionPhoto.length;
+    var fragment = document.createDocumentFragment();
 
     function isBlank(text) {
       return text === undefined || text === null || text.trim() === '';
@@ -58,19 +54,24 @@
     window.util = {
       COUNT_PICTURES_ON_PAGE: COUNT_PICTURES_ON_PAGE,
       KEYCODE: KEYCODE,
-      // fragment: fragment,
+      fragment: fragment,
       descriptionPhoto: descriptionPhoto,
       isBlank: isBlank,
       contains: contains,
       bound: bound
     };
 
-    for (var mod = 1; mod <= modules.length; mod++) {
-      var script = document.createElement('script');
-      script.setAttribute('src', 'js/' + modules[mod - 1] + '.js');
-      document.head.appendChild(script);
-    }
+    connectionSkripts(modulesSuccess, 'head');
   };
 
   window.load('https://js.dump.academy/kekstagram/data', onSuccess, onError);
+
+  function connectionSkripts(modules, where) {
+    for (var mod = 1; mod <= modules.length; mod++) {
+      var script = document.createElement('script');
+      script.setAttribute('src', 'js/' + modules[mod - 1] + '.js');
+      var whereThis = document.querySelector(where);
+      whereThis.appendChild(script);
+    }
+  }
 })();

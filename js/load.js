@@ -10,12 +10,26 @@
       if (xhr.status === 200) {
         onSuccess(xhr.response);
       } else {
-        onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        switch (xhr.status) {
+          case 404:
+            window.util = {
+              error: 'Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText,
+              buttonsFormError: true,
+              buttonName: ['Перезагрузить']
+            };
+            break;
+        }
+        onError();
       }
     });
 
     xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
+      window.util = {
+        error: 'Произошла ошибка соединения. Проверьте соединение и повторите попытку.',
+        buttonsFormError: true,
+        buttonName: ['Ок']
+      };
+      onError();
     });
 
     xhr.addEventListener('timeout', function () {
