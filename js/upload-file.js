@@ -29,7 +29,7 @@
   (function init() {
     document.querySelector('#upload-file').addEventListener('change', function () {
       document.querySelector('.img-upload__overlay').classList.remove('hidden');
-      document.addEventListener('keydown', onPopupEscPress);
+      DOM.form.addEventListener('keydown', onPopupEscPress);
     });
 
     DOM.button.cancel.addEventListener('click', function () {
@@ -134,5 +134,20 @@
     }
   }
 
-  window.uploadFile = {};
+  window.uploadFile = {
+    eventListener: function () {
+      document.querySelector('.success').addEventListener('click', function (evt) {
+        if (evt.target.tagName === 'BUTTON' || evt.target.tagName === 'SECTION') {
+          document.querySelector('main').removeChild(document.querySelector('.success'));
+        }
+      });
+
+      document.querySelector('.success').addEventListener('keydown', function (evt) {
+        console.log('dfghjhgfdsfghjkjhgfdsfghjkjhgfdfghjkjhgfdsfghjklkjhgfddfghj');
+        if (evt.keyCode === window.util.KEYCODE.ESC) {
+          document.querySelector('main').removeChild(document.querySelector('.success'));
+        }
+      });
+    }
+  };
 })();

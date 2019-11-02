@@ -66,6 +66,7 @@
   function showPopup(content, template) {
     var element = typeof content === 'string' ? template(content) : content;
     document.querySelector('main').appendChild(element);
+    window.uploadFile.eventListener();
   }
 
   function show(element) {

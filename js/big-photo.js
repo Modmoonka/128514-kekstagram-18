@@ -12,9 +12,9 @@
       likes: document.querySelector('.likes-count'),
       commentsCount: document.querySelector('.comments-count'),
       socialCaption: document.querySelector('.social__caption'),
-      cancel: document.querySelector('.big-picture__cancel')
-    },
-    socialComments: document.querySelector('.social__comments')
+      cancel: document.querySelector('.big-picture__cancel'),
+      socialComments: document.querySelector('.social__comments')
+    }
   };
 
   function renderComments(comment) {
@@ -27,8 +27,8 @@
 
   function renderBigPhoto(picture) {
     var fragment = document.createDocumentFragment();
-    while (DOM.socialComments.firstChild) {
-      DOM.socialComments.removeChild(DOM.socialComments.firstChild);
+    while (DOM.bigPicture.socialComments.firstChild) {
+      DOM.bigPicture.socialComments.removeChild(DOM.bigPicture.socialComments.firstChild);
     }
     DOM.bigPicture.url.children[0].src = picture.url;
     DOM.bigPicture.likes.textContent = picture.likes;
@@ -38,7 +38,7 @@
       fragment.appendChild(renderComments(comment));
     });
 
-    DOM.socialComments.appendChild(fragment);
+    DOM.bigPicture.socialComments.appendChild(fragment);
   }
 
   DOM.bigPicture.cancel.addEventListener('click', function () {
