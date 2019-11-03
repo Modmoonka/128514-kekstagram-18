@@ -1,9 +1,6 @@
 'use strict';
 
 (function () {
-  document.addEventListener('click', function (ev) {
-    console.dir(ev); });
-
   var KEYCODE = {
     ESC: 27,
     ENTER: 13
