@@ -33,18 +33,18 @@
     });
 
     DOM.button.cancel.addEventListener('click', function () {
-      closePopup();
+      window.uploadFile.closePopup();
     });
 
     DOM.button.cancel.addEventListener('keydown', function (evt) {
       if (evt.keyCode === window.util.KEYCODE.ENTER) {
-        closePopup();
+        window.uploadFile.closePopup();
       }
     });
 
     DOM.button.cancel.addEventListener('keydown', function (evt) {
       if (evt.keyCode === window.util.KEYCODE.ESC) {
-        closePopup();
+        window.uploadFile.closePopup();
       }
     });
 
@@ -92,62 +92,44 @@
       } else {
         DOM.hashTag.hashTag.setCustomValidity('');
         DOM.comment.comment.setCustomValidity('');
-        uploadPicture();
+        window.uploadFile.uploadPicture();
       }
     });
   })();
 
-  function uploadPicture() {
-    window.service.uploadPicture(
-        new FormData(DOM.form),
-        hideForm,
-        function (errorCode) {
-          switch (errorCode) {
-            case window.util.http.ERROR[window.util.http.CODE.NOT_AUTHORIZED]:
-              window.util.showPopup('Not authorized', window.util.template.createTemplateError);
-              break;
-            case window.util.http.ERROR[window.util.http.CODE.NOT_FOUND]:
-              var error = document.querySelector('#error');
-              errorCode.textContent = 'bla';
-              window.util.showPopup(error, window.util.template.createTemplateError);
-              break;
-            default:
-              window.util.showPopup('Really do not know what the heck happened!=/', window.util.template.createTemplateError);
-          }
-        }
-    );
-  }
-
   function hideForm() {
     window.util.hide(DOM.overlay);
-    window.util.showPopup('Image uploaded successfully', window.util.template.createTemplateSuccess);
-  }
-
-  function closePopup() {
-    window.util.hide(DOM.overlay);
-    DOM.input.file.value('');
+    window.util.showPopup('Image uploaded successfully', window.util.error); //window.util.success);
   }
 
   function onPopupEscPress(evt) {
     if (evt.keyCode === window.util.KEYCODE.ESC) {
-      closePopup();
+      window.uploadFile.closePopup();
     }
   }
 
   window.uploadFile = {
-    eventListener: function () {
-      document.querySelector('.success').addEventListener('click', function (evt) {
-        if (evt.target.tagName === 'BUTTON' || evt.target.tagName === 'SECTION') {
-          document.querySelector('main').removeChild(document.querySelector('.success'));
-        }
-      });
-
-      document.querySelector('.success').addEventListener('keydown', function (evt) {
-        console.log('dfghjhgfdsfghjkjhgfdsfghjkjhgfdfghjkjhgfdsfghjklkjhgfddfghj');
-        if (evt.keyCode === window.util.KEYCODE.ESC) {
-          document.querySelector('main').removeChild(document.querySelector('.success'));
-        }
-      });
+    uploadPicture: function () {
+      window.service.uploadPicture(
+          new FormData(DOM.form),
+          hideForm,
+          function (errorCode) {
+            switch (errorCode) {
+              case window.util.http.ERROR[window.util.http.CODE.NOT_AUTHORIZED]:
+                window.util.showPopup('Not authorized', window.util.error);
+                break;
+              case window.util.http.ERROR[window.util.http.CODE.NOT_FOUND]:
+                window.util.showPopup('Page not found', window.util.error);
+                break;
+              default:
+                window.util.showPopup('Really do not know what the heck happened!=/', window.util.error);
+            }
+          }
+      );
+    },
+    closePopup: function () {
+      window.util.hide(DOM.overlay);
+      DOM.input.file.value('');
     }
   };
 })();

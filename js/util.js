@@ -1,13 +1,6 @@
 'use strict';
 
 (function () {
-  var templateError = document.querySelector('#error')
-    .content
-    .querySelector('.error');
-
-  var templateSuccess = document.querySelector('#success')
-    .content
-    .querySelector('.success');
 
   var KEYCODE = {
     ESC: 27,
@@ -58,15 +51,22 @@
     return Math.max(min, Math.min(value, max));
   }
 
+  function createTemplate(template, className, message) {
+    var cloneElement = template.cloneNode(true);
+    cloneElement.querySelector(className).textContent = message;
+    return cloneElement;
+  }
+
   /**
-   * Show pop up with the given {@code content}.
+   * Show pop up with the given {content, template}.
    *
-   * @param {HTMLElement|String} content
+   * @param {String} content
+   * @param {Object} template
    */
   function showPopup(content, template) {
-    var element = typeof content === 'string' ? template(content) : content;
+    var element = createTemplate(template.template, template.messageClass, content);
     document.querySelector('main').appendChild(element);
-    window.uploadFile.eventListener();
+    template.eventListener();
   }
 
   function show(element) {
@@ -89,18 +89,56 @@
     showPopup: showPopup,
     hide: hide,
     show: show,
-    template: {
-      createTemplateError: function (message) {
-        var cloneElement = templateError.cloneNode(true);
-        cloneElement.querySelector('.error__title').textContent = message;
-        return cloneElement;
-      },
+    error: {
+      template: document.querySelector('#error')
+        .content
+        .querySelector('.error'),
+      messageClass: '.error__title',
+      eventListener: function () {
+        document.querySelector('.error').addEventListener('click', function (evt) {
+          // if (evt.target.tagName === 'BUTTON' || evt.target.tagName === 'SECTION') {
+            // document.querySelector('main').removeChild(document.querySelector('.error'));
+          if (evt.target.tagName === 'BUTTON') {
+            console.dir(evt.target);
+          }
+          switch(evt.target.textContent) {
+            case 'Попробовать снова':
+              window.uploadFile.uploadPicture();
+              break;
 
-      createTemplateSuccess: function (message) {
-        var cloneElement = templateSuccess.cloneNode(true);
-        cloneElement.querySelector('.success__title').textContent = message;
-        return cloneElement;
+            case 'Загрузить другой файл':
+              window.uploadFile.closePopup;
+              // document.querySelector('#upload-file').onclick();
+              break;
+          }
+        });
+
+        // document.querySelector('.success').addEventListener('keydown', function (evt) {
+        //   if (evt.keyCode === window.util.KEYCODE.ESC) {
+        //     document.querySelector('main').removeChild(document.querySelector('.success'));
+        //   }
+        // });
+      }
+    },
+    success: {
+      template: document.querySelector('#success')
+        .content
+        .querySelector('.success'),
+      messageClass: '.success__title',
+      eventListener: function () {
+        document.querySelector('.success').addEventListener('click', function (evt) {
+          if (evt.target.tagName === 'BUTTON' || evt.target.tagName === 'SECTION') {
+            document.querySelector('main').removeChild(document.querySelector('.success'));
+          }
+        });
+
+        document.querySelector('.success').addEventListener('keydown', function (evt) {
+          if (evt.keyCode === window.util.KEYCODE.ESC) {
+            document.querySelector('main').removeChild(document.querySelector('.success'));
+          }
+        });
       }
     }
+
   };
 })();
