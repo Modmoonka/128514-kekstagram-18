@@ -99,7 +99,7 @@
 
   function hideForm() {
     window.util.hide(DOM.overlay);
-    window.util.showPopup('Image uploaded successfully', window.util.error); //window.util.success);
+    window.util.showPopup('Image uploaded successfully', window.util.success);
   }
 
   function onPopupEscPress(evt) {
@@ -129,7 +129,7 @@
     },
     closePopup: function () {
       window.util.hide(DOM.overlay);
-      DOM.input.file.value('');
+      DOM.input.file.value = '';
     }
   };
 })();

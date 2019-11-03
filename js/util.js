@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  document.addEventListener('click', function (ev) {
+    console.dir(ev); });
 
   var KEYCODE = {
     ESC: 27,
@@ -96,20 +98,21 @@
       messageClass: '.error__title',
       eventListener: function () {
         document.querySelector('.error').addEventListener('click', function (evt) {
-          // if (evt.target.tagName === 'BUTTON' || evt.target.tagName === 'SECTION') {
-            // document.querySelector('main').removeChild(document.querySelector('.error'));
-          if (evt.target.tagName === 'BUTTON') {
-            console.dir(evt.target);
-          }
-          switch(evt.target.textContent) {
-            case 'Попробовать снова':
-              window.uploadFile.uploadPicture();
-              break;
+          if (evt.target.tagName === 'SECTION') {
+            document.querySelector('main').removeChild(document.querySelector('.error'));
+          } else {
+            switch (evt.target.textContent) {
+              case 'Попробовать снова':
+                window.uploadFile.uploadPicture();
+                document.querySelector('main').removeChild(document.querySelector('.error'));
+                break;
 
-            case 'Загрузить другой файл':
-              window.uploadFile.closePopup;
-              // document.querySelector('#upload-file').onclick();
-              break;
+              case 'Загрузить другой файл':
+                window.uploadFile.closePopup();
+                // document.querySelector('.img-upload__start').onclick();
+                document.querySelector('main').removeChild(document.querySelector('.error'));
+                break;
+            }
           }
         });
 
