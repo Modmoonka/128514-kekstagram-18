@@ -99,7 +99,7 @@
 
   function hideForm() {
     window.util.hide(DOM.overlay);
-    window.util.showPopup('Image uploaded successfully', window.util.success);
+    window.util.showPopup('Image uploaded successfully', window.uploadFile.success);
   }
 
   function onPopupEscPress(evt) {
@@ -116,13 +116,13 @@
           function (errorCode) {
             switch (errorCode) {
               case window.util.http.ERROR[window.util.http.CODE.NOT_AUTHORIZED]:
-                window.util.showPopup('Not authorized', window.util.error);
+                window.util.showPopup('Not authorized', window.uploadFile.error);
                 break;
               case window.util.http.ERROR[window.util.http.CODE.NOT_FOUND]:
-                window.util.showPopup('Page not found', window.util.error);
+                window.util.showPopup('Page not found', window.uploadFile.error);
                 break;
               default:
-                window.util.showPopup('Really do not know what the heck happened!=/', window.util.error);
+                window.util.showPopup('Really do not know what the heck happened!=/', window.uploadFile.error);
             }
           }
       );
