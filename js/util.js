@@ -32,6 +32,11 @@
     return seen;
   }
 
+  function removeContent(className) {
+    if (document.querySelector('main').querySelector(className)) {
+      document.querySelector('main').querySelector(className).remove();
+    }
+  }
   /**
    * Returns value bounded to the range.
    *
@@ -88,6 +93,7 @@
     showPopup: showPopup,
     hide: hide,
     show: show,
+    removeContent: removeContent,
     error: {
       template: document.querySelector('#error')
         .content
@@ -96,28 +102,28 @@
       eventListener: function () {
         document.querySelector('.error').addEventListener('click', function (evt) {
           if (evt.target.tagName === 'SECTION') {
-            document.querySelector('main').removeChild(document.querySelector('.error'));
+            removeContent('.error');
           } else {
             switch (evt.target.textContent) {
               case 'Попробовать снова':
                 window.uploadFile.uploadPicture();
-                document.querySelector('main').removeChild(document.querySelector('.error'));
+                removeContent('.error');
                 break;
 
               case 'Загрузить другой файл':
                 window.uploadFile.closePopup();
                 // document.querySelector('.img-upload__start').onclick();
-                document.querySelector('main').removeChild(document.querySelector('.error'));
+                removeContent('.error');
                 break;
             }
           }
         });
 
-        // document.querySelector('.success').addEventListener('keydown', function (evt) {
-        //   if (evt.keyCode === window.util.KEYCODE.ESC) {
-        //     document.querySelector('main').removeChild(document.querySelector('.success'));
-        //   }
-        // });
+        document.querySelector('.error').addEventListener('keydown', function (evt) {
+          if (evt.keyCode === window.util.KEYCODE.ESC) {
+            removeContent('.error');
+          }
+        });
       }
     },
     success: {
@@ -128,13 +134,13 @@
       eventListener: function () {
         document.querySelector('.success').addEventListener('click', function (evt) {
           if (evt.target.tagName === 'BUTTON' || evt.target.tagName === 'SECTION') {
-            document.querySelector('main').removeChild(document.querySelector('.success'));
+            removeContent('.success');
           }
         });
 
-        document.querySelector('.success').addEventListener('keydown', function (evt) {
+        document.addEventListener('keydown', function (evt) {
           if (evt.keyCode === window.util.KEYCODE.ESC) {
-            document.querySelector('main').removeChild(document.querySelector('.success'));
+            removeContent('.success');
           }
         });
       }
