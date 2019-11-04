@@ -42,7 +42,7 @@
     });
 
     xhr.addEventListener('timeout', function () {
-      window.util.showPopup('Запрос не успел выполниться за ' + xhr.timeout + 'мс', window.util.error);
+      window.util.showPopup('Запрос не успел выполниться за ' + xhr.timeout + 'мс', window.uploadFile.error);
     });
 
     xhr.open(method, url);

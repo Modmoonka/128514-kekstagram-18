@@ -37,6 +37,12 @@
       document.querySelector('main').querySelector(className).remove();
     }
   }
+
+  function removeClass(elements, className) {
+    elements.forEach(function (element) {
+      element.classList.remove(className);
+    });
+  }
   /**
    * Returns value bounded to the range.
    *
@@ -94,57 +100,6 @@
     hide: hide,
     show: show,
     removeContent: removeContent,
-    error: {
-      template: document.querySelector('#error')
-        .content
-        .querySelector('.error'),
-      messageClass: '.error__title',
-      eventListener: function () {
-        document.querySelector('.error').addEventListener('click', function (evt) {
-          if (evt.target.tagName === 'SECTION') {
-            removeContent('.error');
-          } else {
-            switch (evt.target.textContent) {
-              case 'Попробовать снова':
-                window.uploadFile.uploadPicture();
-                removeContent('.error');
-                break;
-
-              case 'Загрузить другой файл':
-                window.uploadFile.closePopup();
-                // document.querySelector('.img-upload__start').onclick();
-                removeContent('.error');
-                break;
-            }
-          }
-        });
-
-        document.querySelector('.error').addEventListener('keydown', function (evt) {
-          if (evt.keyCode === window.util.KEYCODE.ESC) {
-            removeContent('.error');
-          }
-        });
-      }
-    },
-    success: {
-      template: document.querySelector('#success')
-        .content
-        .querySelector('.success'),
-      messageClass: '.success__title',
-      eventListener: function () {
-        document.querySelector('.success').addEventListener('click', function (evt) {
-          if (evt.target.tagName === 'BUTTON' || evt.target.tagName === 'SECTION') {
-            removeContent('.success');
-          }
-        });
-
-        document.addEventListener('keydown', function (evt) {
-          if (evt.keyCode === window.util.KEYCODE.ESC) {
-            removeContent('.success');
-          }
-        });
-      }
-    }
-
+    removeClass: removeClass
   };
 })();
