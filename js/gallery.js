@@ -38,12 +38,8 @@
   window.gallery = {
     showPictures: function (pictures) {
       window.util.removeClass(filter, 'img-filters--inactive');
-
-      renderGallery(pictures);
-
-      var pict;
-
-
+      var pict = pictures;
+      renderGallery(pict);
       formFilteres.addEventListener('click', window.filter.debounce(function (evt) {
         switch (evt.target.id) {
           case 'filter-popular':
@@ -81,6 +77,5 @@
         }
       });
     },
-    // onChangeFilter: onChangeFilter
   };
 })();
