@@ -41,50 +41,6 @@
     }
   };
 
-  function applyefect(className) {
-    DOM.img.preview.children[0].classList = '';
-    DOM.img.preview.children[0].classList.add(className);
-  }
-
-  function checkClassAndAddEfect(value) {
-    switch (DOM.img.preview.children[0].classList[0]) {
-      case 'effects__preview--none':
-        DOM.img.preview.style.filter = '';
-        window.util.hide(DOM.range.effectLevel);
-        break;
-      case 'effects__preview--chrome':
-        window.util.show(DOM.range.effectLevel);
-        value /= 100;
-        DOM.img.preview.style.filter = 'grayscale(' + value + ')';
-        break;
-      case 'effects__preview--sepia':
-        window.util.show(DOM.range.effectLevel);
-        value /= 100;
-        DOM.img.preview.style.filter = 'sepia(' + value + ')';
-        break;
-      case 'effects__preview--marvin':
-        window.util.show(DOM.range.effectLevel);
-        value += '%';
-        DOM.img.preview.style.filter = 'invert(' + value + ')';
-        break;
-      case 'effects__preview--phobos':
-        window.util.show(DOM.range.effectLevel);
-        value *= 0.03;
-        value += 'px';
-        DOM.img.preview.style.filter = 'blur(' + value + ')';
-        break;
-      case 'effects__preview--heat':
-        window.util.show(DOM.range.effectLevel);
-        value *= 0.03;
-        DOM.img.preview.style.filter = 'brightness(' + value + ')';
-        break;
-      default:
-        DOM.img.preview.style.filter = '';
-        window.util.hide(DOM.range.effectLevel);
-        break;
-    }
-  }
-
   (function init() {
     document.querySelector('#upload-file').addEventListener('change', function () {
       document.querySelector('.img-upload__overlay').classList.remove('hidden');
@@ -233,6 +189,50 @@
   function onPopupEscPress(evt) {
     if (evt.keyCode === window.util.KEYCODE.ESC) {
       window.uploadFile.closePopup();
+    }
+  }
+
+  function applyefect(className) {
+    DOM.img.preview.children[0].classList = '';
+    DOM.img.preview.children[0].classList.add(className);
+  }
+
+  function checkClassAndAddEfect(value) {
+    switch (DOM.img.preview.children[0].classList[0]) {
+      case 'effects__preview--none':
+        DOM.img.preview.style.filter = '';
+        window.util.hide(DOM.range.effectLevel);
+        break;
+      case 'effects__preview--chrome':
+        window.util.show(DOM.range.effectLevel);
+        value /= 100;
+        DOM.img.preview.style.filter = 'grayscale(' + value + ')';
+        break;
+      case 'effects__preview--sepia':
+        window.util.show(DOM.range.effectLevel);
+        value /= 100;
+        DOM.img.preview.style.filter = 'sepia(' + value + ')';
+        break;
+      case 'effects__preview--marvin':
+        window.util.show(DOM.range.effectLevel);
+        value += '%';
+        DOM.img.preview.style.filter = 'invert(' + value + ')';
+        break;
+      case 'effects__preview--phobos':
+        window.util.show(DOM.range.effectLevel);
+        value *= 0.03;
+        value += 'px';
+        DOM.img.preview.style.filter = 'blur(' + value + ')';
+        break;
+      case 'effects__preview--heat':
+        window.util.show(DOM.range.effectLevel);
+        value *= 0.03;
+        DOM.img.preview.style.filter = 'brightness(' + value + ')';
+        break;
+      default:
+        DOM.img.preview.style.filter = '';
+        window.util.hide(DOM.range.effectLevel);
+        break;
     }
   }
 
