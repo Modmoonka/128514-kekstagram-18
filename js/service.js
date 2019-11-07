@@ -1,11 +1,6 @@
 'use strict';
 
 (function () {
-  var templateLoad = document.querySelector('#messages')
-    .content
-    .querySelector('.img-upload__message');
-  var cloneTemplate;
-
   var NETWORK_TIMEOUT = 1000000;
 
   function get(url, onSuccess, onError) {
@@ -20,11 +15,6 @@
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.timeout = NETWORK_TIMEOUT;
-
-    // xhr.addEventListener('loadend', function () {
-    //   cloneTemplate = templateLoad.cloneNode(true);
-    //   document.querySelector('main').appendChild(cloneTemplate);
-    // });
 
     xhr.addEventListener('load', function () {
 

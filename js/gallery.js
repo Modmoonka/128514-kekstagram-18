@@ -25,7 +25,7 @@
   }
 
   function renderGallery(pictures) {
-    [].forEach.call(galleryElement.querySelectorAll('.picture'), function (element) {
+    [].forEach.call(galleryElement.querySelectorAll('.picture'), function () {
       galleryElement.querySelector('.picture').remove();
     });
 
@@ -61,7 +61,6 @@
             break;
         }
       }));
-
 
       galleryElement.addEventListener('click', function (evt) {
         if (evt.target.accessKey) {
