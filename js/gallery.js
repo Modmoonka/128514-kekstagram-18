@@ -63,7 +63,7 @@
         }
       }
     });
-  };
+  }
 
   function renderGallery(pictures) {
     [].forEach.call(galleryElement.querySelectorAll('.picture'), function () {
