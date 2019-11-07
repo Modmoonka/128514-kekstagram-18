@@ -71,8 +71,6 @@
     renderFragment();
 
     DOM.bigPicture.loader.addEventListener('click', renderFragment);
-    document.addEventListener('click', function (e) {
-    });
   }
 
   DOM.bigPicture.cancel.addEventListener('click', function () {
