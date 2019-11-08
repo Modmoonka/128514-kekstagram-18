@@ -30,14 +30,6 @@
     },
     img: {
       preview: document.querySelector('.img-upload__preview')
-    },
-    effectslist: {
-      efectNone: document.querySelector('.effects__preview--none'),
-      efectChrome: document.querySelector('.effects__preview--chrome'),
-      efectSepia: document.querySelector('.effects__preview--sepia'),
-      efectMarvin: document.querySelector('.effects__preview--marvin'),
-      efectPhobos: document.querySelector('.effects__preview--phobos'),
-      efectHeat: document.querySelector('.effects__preview--heat')
     }
   };
 
@@ -45,7 +37,7 @@
     document.querySelector('#upload-file').addEventListener('change', function () {
       document.querySelector('.img-upload__overlay').classList.remove('hidden');
       DOM.form.addEventListener('keydown', onPopupEscPress);
-      checkClassAndAddEfect(0);
+      window.filter.checkClassAndAddEfect(0);
     });
 
     DOM.button.cancel.addEventListener('click', function () {
@@ -88,43 +80,6 @@
       DOM.img.preview.style.transform = 'scale(' + valueControl + ')';
     });
 
-    // Применение эфекта
-
-    DOM.effectslist.efectNone.addEventListener('click', function (evt) {
-      applyefect(evt.target.classList[1]);
-      checkClassAndAddEfect(0);
-    });
-
-    DOM.effectslist.efectChrome.addEventListener('click', function (evt) {
-      applyefect(evt.target.classList[1]);
-      var value = DOM.range.pin.style.left.substring(0, DOM.range.pin.style.left.length - 1);
-      checkClassAndAddEfect(value);
-    });
-
-    DOM.effectslist.efectHeat.addEventListener('click', function (evt) {
-      applyefect(evt.target.classList[1]);
-      var value = DOM.range.pin.style.left.substring(0, DOM.range.pin.style.left.length - 1);
-      checkClassAndAddEfect(value);
-    });
-
-    DOM.effectslist.efectMarvin.addEventListener('click', function (evt) {
-      applyefect(evt.target.classList[1]);
-      var value = DOM.range.pin.style.left.substring(0, DOM.range.pin.style.left.length - 1);
-      checkClassAndAddEfect(value);
-    });
-
-    DOM.effectslist.efectPhobos.addEventListener('click', function (evt) {
-      applyefect(evt.target.classList[1]);
-      var value = DOM.range.pin.style.left.substring(0, DOM.range.pin.style.left.length - 1);
-      checkClassAndAddEfect(value);
-    });
-
-    DOM.effectslist.efectSepia.addEventListener('click', function (evt) {
-      applyefect(evt.target.classList[1]);
-      var value = DOM.range.pin.style.left.substring(0, DOM.range.pin.style.left.length - 1);
-      checkClassAndAddEfect(value);
-    });
-
     // Перемещение pin
 
     DOM.range.line.addEventListener('mousedown', function (evt) {
@@ -147,7 +102,7 @@
         };
         value = (window.util.bound(0, DOM.range.line.offsetWidth, DOM.range.pin.offsetLeft - shift.x) * 100 / DOM.range.line.offsetWidth);
         percentage = value + '%';
-        checkClassAndAddEfect(Math.round(value));
+        window.filter.checkClassAndAddEfect(Math.round(value));
         DOM.range.depth.style.width = percentage;
         DOM.range.pin.style.left = percentage;
       };
@@ -189,50 +144,6 @@
   function onPopupEscPress(evt) {
     if (evt.keyCode === window.util.KEYCODE.ESC) {
       window.uploadFile.closePopup();
-    }
-  }
-
-  function applyefect(className) {
-    DOM.img.preview.children[0].classList = '';
-    DOM.img.preview.children[0].classList.add(className);
-  }
-
-  function checkClassAndAddEfect(value) {
-    switch (DOM.img.preview.children[0].classList[0]) {
-      case 'effects__preview--none':
-        DOM.img.preview.style.filter = '';
-        window.util.hide(DOM.range.effectLevel);
-        break;
-      case 'effects__preview--chrome':
-        window.util.show(DOM.range.effectLevel);
-        value /= 100;
-        DOM.img.preview.style.filter = 'grayscale(' + value + ')';
-        break;
-      case 'effects__preview--sepia':
-        window.util.show(DOM.range.effectLevel);
-        value /= 100;
-        DOM.img.preview.style.filter = 'sepia(' + value + ')';
-        break;
-      case 'effects__preview--marvin':
-        window.util.show(DOM.range.effectLevel);
-        value += '%';
-        DOM.img.preview.style.filter = 'invert(' + value + ')';
-        break;
-      case 'effects__preview--phobos':
-        window.util.show(DOM.range.effectLevel);
-        value *= 0.03;
-        value += 'px';
-        DOM.img.preview.style.filter = 'blur(' + value + ')';
-        break;
-      case 'effects__preview--heat':
-        window.util.show(DOM.range.effectLevel);
-        value *= 0.03;
-        DOM.img.preview.style.filter = 'brightness(' + value + ')';
-        break;
-      default:
-        DOM.img.preview.style.filter = '';
-        window.util.hide(DOM.range.effectLevel);
-        break;
     }
   }
 

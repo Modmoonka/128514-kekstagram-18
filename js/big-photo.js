@@ -3,7 +3,7 @@
 (function () {
   var DOMcomments = [];
   var ADD_COUNT_COMMENTS = 5;
-  var countShow = 0;
+  var countShow;
 
   var DOM = {
     fragment: document.createDocumentFragment(),
@@ -59,6 +59,7 @@
   }
 
   function renderBigPhoto(picture) {
+    countShow = 0;
     while (DOM.bigPicture.socialComments.firstChild) {
       DOM.bigPicture.socialComments.removeChild(DOM.bigPicture.socialComments.firstChild);
     }

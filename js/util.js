@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var DEBOUNCE_INTERVAL = 500; // ms
+
   var KEYCODE = {
     ESC: 27,
     ENTER: 13
@@ -16,10 +18,6 @@
     NOT_AUTHORIZED: 401,
     NOT_FOUND: 404
   };
-
-  function isBlank(text) {
-    return text === undefined || text === null || text.trim() === '';
-  }
 
   function contains(elements, needle) {
     var seen = false;
@@ -87,19 +85,32 @@
     element.classList.add('hidden');
   }
 
+  function debounce(cb) {
+    var lastTimeout = null;
+    return function () {
+      var parameters = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        cb.apply(null, parameters);
+      }, DEBOUNCE_INTERVAL);
+    };
+  }
+
   window.util = {
     KEYCODE: KEYCODE,
     http: {
       ERROR: HTTP_ERROR,
       CODE: HTTP_CODE
     },
-    isBlank: isBlank,
     contains: contains,
     bound: bound,
     showPopup: showPopup,
     hide: hide,
     show: show,
     removeContent: removeContent,
-    removeClass: removeClass
+    removeClass: removeClass,
+    debounce: debounce
   };
 })();

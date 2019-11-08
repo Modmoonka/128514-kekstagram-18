@@ -8,6 +8,6 @@
     COMMENT_BODY_VERY_TOO_LONG: 'Тег слишком длинный',
     COMMENT_BODY_TOO_SHORT: 'Тег слишком короткий',
     COMMENT_BODY_NOT_SEPARATED_BY_SPASEC: 'Теги не разделены пробелами',
-    COMMENT_BODY_TAG_MEETS_TWICE: 'Тег всречается дважды'
+    COMMENT_BODY_TAG_MEETS_TWICE: 'Тег встречается дважды'
   };
 })();
