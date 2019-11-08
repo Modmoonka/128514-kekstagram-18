@@ -5,7 +5,6 @@
     form: document.querySelector('.img-upload__form'),
     overlay: document.querySelector('.img-upload__overlay'),
     range: {
-      effectLevel: document.querySelector('.img-upload__effect-level'),
       line: document.querySelector('.effect-level__line'),
       depth: document.querySelector('.effect-level__depth'),
       pin: document.querySelector('.effect-level__pin')
@@ -138,7 +137,7 @@
 
   function hideForm() {
     window.util.hide(DOM.overlay);
-    window.util.showPopup('Image uploaded successfully', window.uploadFile.success);
+    window.util.showPopup('Image uploaded successfully', window.popups.success);
   }
 
   function onPopupEscPress(evt) {
@@ -147,79 +146,32 @@
     }
   }
 
+  function uploadPicture() {
+    window.service.uploadPicture(
+        new FormData(DOM.form),
+        hideForm,
+        function (errorCode) {
+          switch (errorCode) {
+            case window.util.http.ERROR[window.util.http.CODE.NOT_AUTHORIZED]:
+              window.util.showPopup('Not authorized', window.popups.error);
+              break;
+            case window.util.http.ERROR[window.util.http.CODE.NOT_FOUND]:
+              window.util.showPopup('Page not found', window.popups.error);
+              break;
+            default:
+              window.util.showPopup('Really do not know what the heck happened!=/', window.popups.error);
+          }
+        }
+    );
+  }
+
+  function closePopup() {
+    window.util.hide(DOM.overlay);
+    DOM.input.file.value = '';
+  }
+
   window.uploadFile = {
-    uploadPicture: function () {
-      window.service.uploadPicture(
-          new FormData(DOM.form),
-          hideForm,
-          function (errorCode) {
-            switch (errorCode) {
-              case window.util.http.ERROR[window.util.http.CODE.NOT_AUTHORIZED]:
-                window.util.showPopup('Not authorized', window.uploadFile.error);
-                break;
-              case window.util.http.ERROR[window.util.http.CODE.NOT_FOUND]:
-                window.util.showPopup('Page not found', window.uploadFile.error);
-                break;
-              default:
-                window.util.showPopup('Really do not know what the heck happened!=/', window.uploadFile.error);
-            }
-          }
-      );
-    },
-    closePopup: function () {
-      window.util.hide(DOM.overlay);
-      DOM.input.file.value = '';
-    },
-    error: {
-      template: document.querySelector('#error')
-        .content
-        .querySelector('.error'),
-      messageClass: '.error__title',
-      eventListener: function () {
-        document.querySelector('.error').addEventListener('click', function (evt) {
-          if (evt.target.tagName === 'SECTION') {
-            window.util.removeContent('.error');
-          } else {
-            switch (evt.target.textContent) {
-              case 'Попробовать снова':
-                window.uploadFile.uploadPicture();
-                window.util.removeContent('.error');
-                break;
-
-              case 'Загрузить другой файл':
-                window.uploadFile.closePopup();
-                // document.querySelector('.img-upload__start').onclick();
-                window.util.removeContent('.error');
-                break;
-            }
-          }
-        });
-
-        document.querySelector('.error').addEventListener('keydown', function (evt) {
-          if (evt.keyCode === window.util.KEYCODE.ESC) {
-            window.util.removeContent('.error');
-          }
-        });
-      }
-    },
-    success: {
-      template: document.querySelector('#success')
-        .content
-        .querySelector('.success'),
-      messageClass: '.success__title',
-      eventListener: function () {
-        document.querySelector('.success').addEventListener('click', function (evt) {
-          if (evt.target.tagName === 'BUTTON' || evt.target.tagName === 'SECTION') {
-            window.util.removeContent('.success');
-          }
-        });
-
-        document.addEventListener('keydown', function (evt) {
-          if (evt.keyCode === window.util.KEYCODE.ESC) {
-            window.util.removeContent('.success');
-          }
-        });
-      }
-    }
+    uploadPicture: uploadPicture,
+    closePopup: closePopup
   };
 })();

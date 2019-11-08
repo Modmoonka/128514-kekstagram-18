@@ -19,6 +19,10 @@
     NOT_FOUND: 404
   };
 
+  function isBlank(text) {
+    return text === undefined || text === null || text.trim() === '';
+  }
+
   function contains(elements, needle) {
     var seen = false;
     for (var i = 0; i < elements.length; i++) {
@@ -104,6 +108,7 @@
       ERROR: HTTP_ERROR,
       CODE: HTTP_CODE
     },
+    isBlank: isBlank,
     contains: contains,
     bound: bound,
     showPopup: showPopup,
