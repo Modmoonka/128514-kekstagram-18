@@ -11,10 +11,8 @@
   Validator.prototype.invalidities = [];
 
   Validator.prototype.checkHashTag = function (input) {
-    if (window.util.isBlank(input)) {
-      this.invalidities.hashTag = [];
-    } else {
-      this.invalidities.hashTag = [];
+    this.invalidities.hashTag = [];
+    if (!window.util.isBlank(input)) {
       var tags = input.split(' ');
       if (tags.length > 5) {
         // Too much tags
@@ -52,9 +50,8 @@
   };
 
   Validator.prototype.checkComments = function (input) {
-    if (window.util.isBlank(input)) {
-      this.invalidities.comment = [];
-    } else {
+    this.invalidities.comment = [];
+    if (!window.util.isBlank(input)) {
       this.invalidities.comment = [];
       if (input.length > 140) {
         this.addInvalidity(window.messages.COMMENT_BODY_TOO_LONG, this.invalidities.comment);
