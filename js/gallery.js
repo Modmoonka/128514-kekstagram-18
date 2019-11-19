@@ -19,7 +19,7 @@
   }
 
   function showPictures(pictures) {
-    var filteredPictures = pictures
+    var filteredPictures = pictures;
     window.util.removeClass(filter, 'img-filters--inactive');
     renderGallery(filteredPictures);
     formFilter.addEventListener('click', window.util.debounce(function (evt) {

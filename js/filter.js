@@ -2,7 +2,7 @@
 (function () {
   var COUNT_PICTURES = 10;
   var PERCENTAGE_TO_PIXEL = 0.03; //количество пикселей (0..3px);
-  var PERCENTAGE = 100; //
+  var PERCENTAGE = 100;
   var buttonFilter = document.querySelectorAll('.img-filters__button');
   var DOM = {
     range: {
