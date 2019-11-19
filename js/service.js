@@ -17,9 +17,6 @@
     xhr.timeout = NETWORK_TIMEOUT;
 
     xhr.addEventListener('load', function () {
-
-      // document.querySelector('main').removeChild(document.querySelector('.img-upload__message'));
-
       if (xhr.status === window.util.http.CODE.OK) {
         onSuccess(xhr.response);
       } else {
@@ -39,16 +36,16 @@
     xhr.send(data);
   }
 
-  function api(path) {
+  function getPath(path) {
     return 'https://js.dump.academy/kekstagram' + (path || '');
   }
 
   window.service = {
     uploadPicture: function (picture, onSuccess, onError) {
-      post(api(), onSuccess, onError, picture);
+      post(getPath(), onSuccess, onError, picture);
     },
     loadPictures: function (onSuccess, onError) {
-      get(api('/data'), onSuccess, onError);
+      get(getPath('/data'), onSuccess, onError);
     }
   };
 })();

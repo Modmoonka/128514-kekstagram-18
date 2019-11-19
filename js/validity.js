@@ -1,6 +1,10 @@
 'use strict';
 
 (function () {
+  var VALUE_MAX_TAG = 20;
+  var VALUE_MIN_TAG = 2;
+  var TAG_COUNT = 5;
+  var VALUE_MAX_COMMENT = 140;
   function Validator() {
     this.invalidities = {
       hashTag: [],
@@ -14,7 +18,7 @@
     this.invalidities.hashTag = [];
     if (!window.util.isBlank(input)) {
       var tags = input.split(' ');
-      if (tags.length > 5) {
+      if (tags.length > TAG_COUNT) {
         // Too much tags
         this.addInvalidity(window.messages.COMMENT_BODY_TOO_MUCH_TAG, this.invalidities.hashTag);
       } else {
@@ -25,11 +29,11 @@
             // Тэг не начинается с решетки
             this.addInvalidity(window.messages.COMMENT_BODY_TAG_NOT_BEGIN_WITH, this.invalidities.hashTag);
           }
-          if (tag.length >= 20) {
+          if (tag.length >= VALUE_MAX_TAG) {
             // Tag is too long
             this.addInvalidity(window.messages.COMMENT_BODY_VERY_TOO_LONG, this.invalidities.hashTag);
           }
-          if (tag.length <= 1) {
+          if (tag.length <= VALUE_MIN_TAG - 1) {
             // Tag is too short (the pound sign only)
             this.addInvalidity(window.messages.COMMENT_BODY_TOO_SHORT, this.invalidities.hashTag);
           }
@@ -53,21 +57,21 @@
     this.invalidities.comment = [];
     if (!window.util.isBlank(input)) {
       this.invalidities.comment = [];
-      if (input.length > 140) {
+      if (input.length > VALUE_MAX_COMMENT) {
         this.addInvalidity(window.messages.COMMENT_BODY_TOO_LONG, this.invalidities.comment);
       }
     }
     return this.invalidities.comment.length === 0;
   };
 
-  Validator.prototype.addInvalidity = function (message, elem) {
-    if (!window.util.contains(elem, message)) {
-      elem.push(message);
+  Validator.prototype.addInvalidity = function (message, element) {
+    if (!window.util.contains(element, message)) {
+      element.push(message);
     }
   };
 
-  Validator.prototype.getInvalidities = function (elem) {
-    return elem.join('. \n');
+  Validator.prototype.getInvalidities = function (element) {
+    return element.join('. \n');
   };
 
   window.validity = {

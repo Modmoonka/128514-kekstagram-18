@@ -6,7 +6,7 @@
   var templatePicture = document.querySelector('#picture')
     .content
     .querySelector('.picture');
-  var formFilteres = document.querySelector('.img-filters__form');
+  var formFilter = document.querySelector('.img-filters__form');
   var fragment = document.createDocumentFragment();
 
   function renderPicture(picture, id) {
@@ -19,22 +19,26 @@
   }
 
   function showPictures(pictures) {
+    var filteredPictures = pictures
     window.util.removeClass(filter, 'img-filters--inactive');
-    renderGallery(pictures);
-    formFilteres.addEventListener('click', window.util.debounce(function (evt) {
-      renderGallery(window.filter.activeFilter(evt.target, pictures));
+    renderGallery(filteredPictures);
+    formFilter.addEventListener('click', window.util.debounce(function (evt) {
+      filteredPictures = window.filter.activationFilter(evt.target, pictures);
+      renderGallery(filteredPictures);
     }));
 
     galleryElement.addEventListener('click', function (evt) {
       if (evt.target.accessKey) {
-        window.bigPhoto.render(pictures[evt.target.accessKey]);
+        window.bigPhoto.render(filteredPictures[evt.target.accessKey]);
+        document.body.classList.add('modal-open');
       }
     });
 
     galleryElement.addEventListener('keydown', function (evt) {
       if (evt.target.tagName === 'A') {
         if (evt.keyCode === window.util.KEYCODE.ENTER && evt.target.children[0].accessKey >= 0) {
-          window.bigPhoto.render(pictures[evt.target.children[0].accessKey]);
+          window.bigPhoto.render(filteredPictures[evt.target.children[0].accessKey]);
+          document.body.classList.add('modal-open');
         }
       }
     });

@@ -1,18 +1,23 @@
 'use strict';
 (function () {
-  var COUN_TPICTURES = 10;
+  var COUNT_PICTURES = 10;
+  var PERCENTAGE_TO_PIXEL = 0.03; //количество пикселей (0..3px);
+  var PERCENTAGE = 100; //
   var buttonFilter = document.querySelectorAll('.img-filters__button');
   var DOM = {
+    range: {
+      pin: document.querySelector('.effect-level__pin')
+    },
     effectslist: {
       effectLevel: document.querySelector('.img-upload__effect-level'),
-      efectNone: document.querySelector('.effects__preview--none'),
-      efectChrome: document.querySelector('.effects__preview--chrome'),
-      efectSepia: document.querySelector('.effects__preview--sepia'),
-      efectMarvin: document.querySelector('.effects__preview--marvin'),
-      efectPhobos: document.querySelector('.effects__preview--phobos'),
-      efectHeat: document.querySelector('.effects__preview--heat')
+      effectNone: document.querySelector('.effects__preview--none'),
+      effectChrome: document.querySelector('.effects__preview--chrome'),
+      effectSepia: document.querySelector('.effects__preview--sepia'),
+      effectMarvin: document.querySelector('.effects__preview--marvin'),
+      effectPhobos: document.querySelector('.effects__preview--phobos'),
+      effectHeat: document.querySelector('.effects__preview--heat')
     },
-    img: {
+    image: {
       preview: document.querySelector('.img-upload__preview')
     }
   };
@@ -20,134 +25,131 @@
   (function init() {
     // Применение эфекта
 
-    DOM.effectslist.efectNone.addEventListener('click', function (evt) {
-      applyefect(evt.target.classList[1]);
-      checkClassAndAddEfect(0);
+    DOM.effectslist.effectNone.addEventListener('click', function (evt) {
+      applyEffect(evt.target.classList[1]);
+      checkClassAndAddEffect(0);
     });
 
-    DOM.effectslist.efectChrome.addEventListener('click', function (evt) {
-      applyefect(evt.target.classList[1]);
+    DOM.effectslist.effectChrome.addEventListener('click', function (evt) {
+      applyEffect(evt.target.classList[1]);
       var value = DOM.range.pin.style.left.substring(0, DOM.range.pin.style.left.length - 1);
-      checkClassAndAddEfect(value);
+      checkClassAndAddEffect(value);
     });
 
-    DOM.effectslist.efectHeat.addEventListener('click', function (evt) {
-      applyefect(evt.target.classList[1]);
+    DOM.effectslist.effectHeat.addEventListener('click', function (evt) {
+      applyEffect(evt.target.classList[1]);
       var value = DOM.range.pin.style.left.substring(0, DOM.range.pin.style.left.length - 1);
-      checkClassAndAddEfect(value);
+      checkClassAndAddEffect(value);
     });
 
-    DOM.effectslist.efectMarvin.addEventListener('click', function (evt) {
-      applyefect(evt.target.classList[1]);
+    DOM.effectslist.effectMarvin.addEventListener('click', function (evt) {
+      applyEffect(evt.target.classList[1]);
       var value = DOM.range.pin.style.left.substring(0, DOM.range.pin.style.left.length - 1);
-      checkClassAndAddEfect(value);
+      checkClassAndAddEffect(value);
     });
 
-    DOM.effectslist.efectPhobos.addEventListener('click', function (evt) {
-      applyefect(evt.target.classList[1]);
+    DOM.effectslist.effectPhobos.addEventListener('click', function (evt) {
+      applyEffect(evt.target.classList[1]);
       var value = DOM.range.pin.style.left.substring(0, DOM.range.pin.style.left.length - 1);
-      checkClassAndAddEfect(value);
+      checkClassAndAddEffect(value);
     });
 
-    DOM.effectslist.efectSepia.addEventListener('click', function (evt) {
-      applyefect(evt.target.classList[1]);
+    DOM.effectslist.effectSepia.addEventListener('click', function (evt) {
+      applyEffect(evt.target.classList[1]);
       var value = DOM.range.pin.style.left.substring(0, DOM.range.pin.style.left.length - 1);
-      checkClassAndAddEfect(value);
+      checkClassAndAddEffect(value);
     });
   })();
 
-  function applyefect(className) {
-    DOM.img.preview.children[0].classList = '';
-    DOM.img.preview.children[0].classList.add(className);
+  function applyEffect(className) {
+    DOM.image.preview.children[0].classList = '';
+    DOM.image.preview.children[0].classList.add(className);
   }
 
-  function checkClassAndAddEfect(value) {
-    switch (DOM.img.preview.children[0].classList[0]) {
+  function checkClassAndAddEffect(value) {
+    switch (DOM.image.preview.children[0].classList[0]) {
       case 'effects__preview--none':
-        DOM.img.preview.style.filter = '';
+        DOM.image.preview.style.filter = '';
         window.util.hide(DOM.effectslist.effectLevel);
         break;
       case 'effects__preview--chrome':
         window.util.show(DOM.effectslist.effectLevel);
-        value /= 100;
-        DOM.img.preview.style.filter = 'grayscale(' + value + ')';
+        value /= PERCENTAGE;
+        DOM.image.preview.style.filter = 'grayscale(' + value + ')';
         break;
       case 'effects__preview--sepia':
         window.util.show(DOM.effectslist.effectLevel);
-        value /= 100;
-        DOM.img.preview.style.filter = 'sepia(' + value + ')';
+        value /= PERCENTAGE;
+        DOM.image.preview.style.filter = 'sepia(' + value + ')';
         break;
       case 'effects__preview--marvin':
         window.util.show(DOM.effectslist.effectLevel);
         value += '%';
-        DOM.img.preview.style.filter = 'invert(' + value + ')';
+        DOM.image.preview.style.filter = 'invert(' + value + ')';
         break;
       case 'effects__preview--phobos':
         window.util.show(DOM.effectslist.effectLevel);
-        value *= 0.03;
+        value *= PERCENTAGE_TO_PIXEL;
         value += 'px';
-        DOM.img.preview.style.filter = 'blur(' + value + ')';
+        DOM.image.preview.style.filter = 'blur(' + value + ')';
         break;
       case 'effects__preview--heat':
         window.util.show(DOM.effectslist.effectLevel);
-        value *= 0.03;
-        DOM.img.preview.style.filter = 'brightness(' + value + ')';
+        value *= PERCENTAGE_TO_PIXEL;
+        DOM.image.preview.style.filter = 'brightness(' + value + ')';
         break;
       default:
-        DOM.img.preview.style.filter = '';
+        DOM.image.preview.style.filter = '';
         window.util.hide(DOM.effectslist.effectLevel);
         break;
     }
   }
 
-  function activeFilter(filter, pictures) {
-    var pict;
+  function activationFilter(filter, pictures) {
+    var drawing;
     switch (filter.id) {
       case 'filter-popular':
-        if (!window.util.contains(filter.classList, 'img-filters__button--active')) {
-          active(filter);
-          pict = pictures;
-        }
+        activation(filter);
+        drawing = pictures;
         break;
       case 'filter-random':
-        active(filter);
-        pict = randomPicturesGallery(pictures, COUN_TPICTURES);
+        activation(filter);
+        drawing = randomPicturesGallery(pictures, COUNT_PICTURES);
         break;
       case 'filter-discussed':
-        if (!window.util.contains(filter.classList, 'img-filters__button--active')) {
-          active(filter);
-          pict = discussed(pictures);
-          break;
-        }
+        activation(filter);
+        drawing = getDiscussed(pictures);
+        break;
     }
-    return pict;
+    return drawing;
   }
 
   function randomPicturesGallery(pictures, countPictures) {
     var copyPictures = pictures.slice();
-    var tenPictures = [];
+    var drawings = [];
     for (var i = 0; i <= countPictures - 1; i++) {
       var random = Math.round(Math.random() * (pictures.length - i - 1));
-      tenPictures.push(copyPictures[random]);
+      drawings.push(copyPictures[random]);
       copyPictures.splice(random, 1);
     }
-    return tenPictures;
+    return drawings;
   }
 
-  function discussed(pictures) {
+  function getDiscussed(pictures) {
     var copyPictures = pictures.slice();
     return copyPictures.sort(function (a, b) {
       return b.comments.length - a.comments.length;
     });
   }
 
-  function active(element) {
+  function activation(element) {
     window.util.removeClass(buttonFilter, 'img-filters__button--active');
     element.classList.add('img-filters__button--active');
   }
 
   window.filter = {
-    activeFilter: activeFilter,
-    checkClassAndAddEfect: checkClassAndAddEfect
+    activationFilter: activationFilter,
+    checkClassAndAddEffect: checkClassAndAddEffect,
+    effectLevel: DOM.effectslist.effectLevel
   };
 })();

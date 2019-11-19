@@ -64,9 +64,9 @@
   }
 
   function createTemplate(template, className, message) {
-    var cloneElement = template.cloneNode(true);
-    cloneElement.querySelector(className).textContent = message;
-    return cloneElement;
+    var clonedElement = template.cloneNode(true);
+    clonedElement.querySelector(className).textContent = message;
+    return clonedElement;
   }
 
   /**

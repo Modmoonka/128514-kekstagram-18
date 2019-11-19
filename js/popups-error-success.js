@@ -20,7 +20,6 @@
 
               case 'Загрузить другой файл':
                 window.uploadFile.closePopup();
-                // document.querySelector('.img-upload__start').onclick();
                 window.util.removeContent('.error');
                 break;
             }
