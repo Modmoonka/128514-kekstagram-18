@@ -81,7 +81,6 @@
   });
 
   function render(picture) {
-    console.dir(picture);
     renderBigPhoto(picture);
     window.util.show(DOM.bigPicture.bigPicture);
     document.addEventListener('keydown', function (e) {
