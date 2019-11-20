@@ -38,20 +38,19 @@
   (function init() {
     document.querySelector('#upload-file').addEventListener('change', function () {
       document.querySelector('.img-upload__overlay').classList.remove('hidden');
-
-      DOM.comment.comment.addEventListener('focus', function () {
-        DOM.form.removeEventListener('keydown', onPopupEscPress);
-        blurFocus(DOM.comment.comment);
-      });
-
-      DOM.hashTag.hashTag.addEventListener('focus', function() {
-        DOM.form.removeEventListener('keydown', onPopupEscPress);
-        blurFocus(DOM.hashTag.hashTag);
-      });
-
-      DOM.form.addEventListener('keydown', onPopupEscPress);
-
       window.filter.checkClassAndAddEffect(0);
+    });
+
+    DOM.form.addEventListener('keydown', onPopupEscPress);
+
+    DOM.comment.comment.addEventListener('focus', function () {
+      DOM.form.removeEventListener('keydown', onPopupEscPress);
+      blurFocus(DOM.comment.comment);
+    });
+
+    DOM.hashTag.hashTag.addEventListener('focus', function() {
+      DOM.form.removeEventListener('keydown', onPopupEscPress);
+      blurFocus(DOM.hashTag.hashTag);
     });
 
     DOM.button.cancel.addEventListener('click', function () {
