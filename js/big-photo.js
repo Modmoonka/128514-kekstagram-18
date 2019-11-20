@@ -25,8 +25,9 @@
 
   function renderComments(comment) {
     var clonedElement = DOM.templateComment.cloneNode(true);
-    clonedElement.querySelector('.social__picture').src = comment.avatar;
-    clonedElement.querySelector('.social__picture').alt = comment.name;
+    var pictureElement = clonedElement.querySelector('.social__picture');
+    pictureElement.src = comment.avatar;
+    pictureElement.alt = comment.name;
     clonedElement.querySelector('.social__text').textContent = comment.message;
     return clonedElement;
   }
@@ -71,7 +72,9 @@
     getCommentsOfPicture(picture);
     renderFragment();
 
-    DOM.bigPicture.loader.addEventListener('click', renderFragment);
+    DOM.bigPicture.loader.addEventListener('click', function () {
+      renderFragment();
+    });
   }
 
   DOM.bigPicture.btnCancel.addEventListener('click', function () {
@@ -83,13 +86,16 @@
   function render(picture) {
     renderBigPhoto(picture);
     window.util.show(DOM.bigPicture.bigPicture);
-    document.addEventListener('keydown', function (e) {
-      if (e.keyCode === window.util.KEYCODE.ESC) {
-        window.accessKey = -1;
-        window.util.hide(DOM.bigPicture.bigPicture);
-        document.body.classList.remove('modal-open');
-      }
-    });
+    document.addEventListener('keydown', onPopupEscPress);
+  }
+
+  function onPopupEscPress(evt) {
+    if (evt.keyCode === window.util.KeyKode.ESC) {
+      window.accessKey = -1;
+      window.util.hide(DOM.bigPicture.bigPicture);
+      document.body.classList.remove('modal-open');
+      document.removeEventListener('keydown', onPopupEscPress);
+    }
   }
 
   window.bigPhoto = {

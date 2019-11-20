@@ -2,18 +2,19 @@
 
 (function () {
   var DEBOUNCE_INTERVAL = 500; // ms
+  var main = document.querySelector('main');
 
-  var KEYCODE = {
+  var KeyKode = {
     ESC: 27,
     ENTER: 13
   };
-  var HTTP_ERROR = {
+  var HttpError = {
     '200': 'OK',
     '401': 'NOT_AUTHORIZED',
     '404': 'NOT_FOUND',
     'unknown': 'UNKNOWN'
   };
-  var HTTP_CODE = {
+  var HttpCode = {
     OK: 200,
     NOT_AUTHORIZED: 401,
     NOT_FOUND: 404
@@ -35,8 +36,8 @@
   }
 
   function removeContent(className) {
-    if (document.querySelector('main').querySelector(className)) {
-      document.querySelector('main').querySelector(className).remove();
+    if (main.querySelector(className)) {
+      main.querySelector(className).remove();
     }
   }
 
@@ -77,7 +78,7 @@
    */
   function showPopup(content, template) {
     var element = createTemplate(template.template, template.messageClass, content);
-    document.querySelector('main').appendChild(element);
+    main.appendChild(element);
     template.eventListener();
   }
 
@@ -103,10 +104,10 @@
   }
 
   window.util = {
-    KEYCODE: KEYCODE,
-    http: {
-      ERROR: HTTP_ERROR,
-      CODE: HTTP_CODE
+    KeyKode: KeyKode,
+    Http: {
+      ERROR: HttpError,
+      CODE: HttpCode
     },
     isBlank: isBlank,
     contains: contains,

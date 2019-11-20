@@ -27,7 +27,7 @@
         });
 
         document.querySelector('.error').addEventListener('keydown', function (evt) {
-          if (evt.keyCode === window.util.KEYCODE.ESC) {
+          if (evt.keyCode === window.util.KeyKode.ESC) {
             window.util.removeContent('.error');
           }
         });
@@ -45,12 +45,15 @@
           }
         });
 
-        document.addEventListener('keydown', function (evt) {
-          if (evt.keyCode === window.util.KEYCODE.ESC) {
-            window.util.removeContent('.success');
-          }
-        });
+        document.addEventListener('keydown', onPopupEscPress);
       }
     }
   };
+
+  function onPopupEscPress(evt) {
+    if (evt.keyCode === window.util.KeyKode.ESC) {
+      window.util.removeContent('.success');
+      document.removeEventListener('keydown', onPopupEscPress);
+    }
+  }
 })();

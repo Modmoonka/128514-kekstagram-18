@@ -25,13 +25,12 @@
     },
     hashTag: {
       hashTag: document.querySelector('.text__hashtags'),
-      formImgUpload: document.querySelector('.img-upload__form'),
     },
     comment: {
       comment: document.querySelector('.text__description'),
       formSubmitComments: document.querySelector('.social__footer-btn')
     },
-    img: {
+    image: {
       preview: document.querySelector('.img-upload__preview')
     }
   };
@@ -39,7 +38,19 @@
   (function init() {
     document.querySelector('#upload-file').addEventListener('change', function () {
       document.querySelector('.img-upload__overlay').classList.remove('hidden');
+
+      DOM.comment.comment.addEventListener('focus', function () {
+        DOM.form.removeEventListener('keydown', onPopupEscPress);
+        blurFocus(DOM.comment.comment);
+      });
+
+      DOM.hashTag.hashTag.addEventListener('focus', function() {
+        DOM.form.removeEventListener('keydown', onPopupEscPress);
+        blurFocus(DOM.hashTag.hashTag);
+      });
+
       DOM.form.addEventListener('keydown', onPopupEscPress);
+
       window.filter.checkClassAndAddEffect(0);
     });
 
@@ -48,7 +59,7 @@
     });
 
     DOM.button.cancel.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.util.KEYCODE.ENTER) {
+      if (evt.keyCode === window.util.KeyKode.ENTER) {
         window.uploadFile.closePopup();
       }
     });
@@ -63,7 +74,7 @@
       DOM.input.caleControl.value = valueControl;
       DOM.input.caleControl.value += '%';
       valueControl /= PERCENTAGE;
-      DOM.img.preview.style.transform = 'scale(' + valueControl + ')';
+      DOM.image.preview.style.transform = 'scale(' + valueControl + ')';
     });
 
     DOM.button.controlBigger.addEventListener('click', function () {
@@ -74,7 +85,7 @@
       DOM.input.caleControl.value = valueControl;
       DOM.input.caleControl.value += '%';
       valueControl /= PERCENTAGE;
-      DOM.img.preview.style.transform = 'scale(' + valueControl + ')';
+      DOM.image.preview.style.transform = 'scale(' + valueControl + ')';
     });
 
     // Перемещение pin
@@ -137,18 +148,28 @@
         window.uploadFile.uploadPicture();
       }
     });
-
   })();
 
   function hideForm() {
-    formReset();
+    closePopup();
     window.util.showPopup('Image uploaded successfully', window.popups.success);
   }
 
   function onPopupEscPress(evt) {
-    if (evt.keyCode === window.util.KEYCODE.ESC) {
+    if (evt.keyCode === window.util.KeyKode.ESC) {
       window.uploadFile.closePopup();
     }
+  }
+
+  function blurFocus(element) {
+    element.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.util.KeyKode.ESC) {
+        element.blur();
+        DOM.button.cancel.focus();
+        evt.stopPropagation();
+        DOM.form.addEventListener('keydown', onPopupEscPress);
+      }
+    });
   }
 
   function uploadPicture() {
@@ -157,11 +178,11 @@
         hideForm,
         function (errorCode) {
           switch (errorCode) {
-            case window.util.http.ERROR[window.util.http.CODE.NOT_AUTHORIZED]:
+            case window.util.Http.ERROR[window.util.Http.CODE.NOT_AUTHORIZED]:
               document.querySelector('.img-upload__overlay').classList.add('hidden');
               window.util.showPopup('Not authorized', window.popups.error);
               break;
-            case window.util.http.ERROR[window.util.http.CODE.NOT_FOUND]:
+            case window.util.Http.ERROR[window.util.Http.CODE.NOT_FOUND]:
               document.querySelector('.img-upload__overlay').classList.add('hidden');
               window.util.showPopup('Page not found', window.popups.error);
               break;
@@ -171,21 +192,18 @@
           }
         }
     );
-    document.querySelector('#upload-file').value = '';
-  }
-
-  function formReset() {
-    window.util.hide(DOM.overlay);
-    DOM.range.depth.style.width = '20%';
-    DOM.range.pin.style.left = '20%';
-    DOM.img.preview.children[0].classList = 'effects__preview--none';
-    DOM.input.caleControl.value = '100%';
-    DOM.img.preview.style.transform = 'scale(1)';
   }
 
   function closePopup() {
-    formReset();
+    window.util.hide(DOM.overlay);
+    DOM.range.depth.style.width = '100%';
+    DOM.range.pin.style.left = '100%';
+    DOM.image.preview.children[0].classList = 'effects__preview--none';
+    DOM.input.caleControl.value = '100%';
+    DOM.image.preview.style.transform = 'scale(1)';
     DOM.input.file.value = '';
+    DOM.hashTag.hashTag.value = '';
+    DOM.comment.comment.value = '';
   }
 
   window.uploadFile = {

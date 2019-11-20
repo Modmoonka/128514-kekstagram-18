@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  window.messages = {
+  window.Messages = {
     COMMENT_BODY_TOO_LONG: 'Слишком длинный комментарий. Длина комментария, не более 140 символов',
     COMMENT_BODY_TOO_MUCH_TAG: 'Слишком много тегов',
     COMMENT_BODY_TAG_NOT_BEGIN_WITH: 'Tэг начинается не с решетки',

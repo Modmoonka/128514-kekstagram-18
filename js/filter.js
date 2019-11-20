@@ -1,7 +1,8 @@
 'use strict';
 (function () {
   var COUNT_PICTURES = 10;
-  var PERCENTAGE_TO_PIXEL = 0.03; // количество пикселей (0..3px);
+  var PERCENTAGE_TO_PIXEL_FOR_BLUR = 0.03; // количество пикселей (0..3px);
+  var PERCENTAGE_TO_PIXEL_BRIGHTNESS = 0.02;
   var PERCENTAGE = 100;
   var buttonFilter = document.querySelectorAll('.img-filters__button');
   var DOM = {
@@ -18,7 +19,8 @@
       effectHeat: document.querySelector('.effects__preview--heat')
     },
     image: {
-      preview: document.querySelector('.img-upload__preview')
+      preview: document.querySelector('.img-upload__preview'),
+      image: document.querySelector('.img-upload__preview').children.item(0)
     }
   };
 
@@ -69,37 +71,45 @@
   function checkClassAndAddEffect(value) {
     switch (DOM.image.preview.children[0].classList[0]) {
       case 'effects__preview--none':
-        DOM.image.preview.style.filter = '';
+        // filter удаляются
+        DOM.image.image.style.filter = '';
         window.util.hide(DOM.effectslist.effectLevel);
         break;
       case 'effects__preview--chrome':
+        // grayscale(0..1);
         window.util.show(DOM.effectslist.effectLevel);
         value /= PERCENTAGE;
-        DOM.image.preview.style.filter = 'grayscale(' + value + ')';
+        DOM.image.image.style.filter = 'grayscale(' + value + ')';
         break;
       case 'effects__preview--sepia':
+        // sepia(0..1);
         window.util.show(DOM.effectslist.effectLevel);
         value /= PERCENTAGE;
-        DOM.image.preview.style.filter = 'sepia(' + value + ')';
+        DOM.image.image.style.filter = 'sepia(' + value + ')';
         break;
       case 'effects__preview--marvin':
+        // invert(0..100%);
         window.util.show(DOM.effectslist.effectLevel);
         value += '%';
-        DOM.image.preview.style.filter = 'invert(' + value + ')';
+        DOM.image.image.style.filter = 'invert(' + value + ')';
         break;
       case 'effects__preview--phobos':
+        // blur(0..3px);
         window.util.show(DOM.effectslist.effectLevel);
-        value *= PERCENTAGE_TO_PIXEL;
+        value *= PERCENTAGE_TO_PIXEL_FOR_BLUR;
         value += 'px';
-        DOM.image.preview.style.filter = 'blur(' + value + ')';
+        DOM.image.image.style.filter = 'blur(' + value + ')';
         break;
       case 'effects__preview--heat':
+        // brightness(1..3);
         window.util.show(DOM.effectslist.effectLevel);
-        value *= PERCENTAGE_TO_PIXEL;
-        DOM.image.preview.style.filter = 'brightness(' + value + ')';
+        value *= PERCENTAGE_TO_PIXEL_BRIGHTNESS;
+        value += 1;
+        DOM.image.image.style.filter = 'brightness(' + value + ')';
         break;
       default:
-        DOM.image.preview.style.filter = '';
+        // filter удаляются
+        DOM.image.image.style.filter = '';
         window.util.hide(DOM.effectslist.effectLevel);
         break;
     }

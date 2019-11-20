@@ -1,8 +1,8 @@
 'use strict';
 
 (function () {
-  var galleryElement = document.querySelector('.pictures');
-  var filter = document.querySelectorAll('.img-filters');
+  var gallery = document.querySelector('.pictures');
+  var filters = document.querySelectorAll('.img-filters');
   var templatePicture = document.querySelector('#picture')
     .content
     .querySelector('.picture');
@@ -11,8 +11,9 @@
 
   function renderPicture(picture, id) {
     var element = templatePicture.cloneNode(true);
-    element.querySelector('.picture__img').accessKey = id;
-    element.querySelector('.picture__img').src = picture.url;
+    var imageElement = element.querySelector('.picture__img');
+    imageElement.accessKey = id;
+    imageElement.src = picture.url;
     element.querySelector('.picture__likes').textContent = picture.likes;
     element.querySelector('.picture__comments').textContent = picture.comments.length;
     return element;
@@ -20,23 +21,23 @@
 
   function showPictures(pictures) {
     var filteredPictures = pictures;
-    window.util.removeClass(filter, 'img-filters--inactive');
+    window.util.removeClass(filters, 'img-filters--inactive');
     renderGallery(filteredPictures);
     formFilter.addEventListener('click', window.util.debounce(function (evt) {
       filteredPictures = window.filter.activationFilter(evt.target, pictures);
       renderGallery(filteredPictures);
     }));
 
-    galleryElement.addEventListener('click', function (evt) {
+    gallery.addEventListener('click', function (evt) {
       if (evt.target.accessKey) {
         window.bigPhoto.render(filteredPictures[evt.target.accessKey]);
         document.body.classList.add('modal-open');
       }
     });
 
-    galleryElement.addEventListener('keydown', function (evt) {
+    gallery.addEventListener('keydown', function (evt) {
       if (evt.target.tagName === 'A') {
-        if (evt.keyCode === window.util.KEYCODE.ENTER && evt.target.children[0].accessKey >= 0) {
+        if (evt.keyCode === window.util.KeyKode.ENTER && evt.target.children[0].accessKey >= 0) {
           window.bigPhoto.render(filteredPictures[evt.target.children[0].accessKey]);
           document.body.classList.add('modal-open');
         }
@@ -45,14 +46,15 @@
   }
 
   function renderGallery(pictures) {
-    [].forEach.call(galleryElement.querySelectorAll('.picture'), function (picture) {
+
+    document.querySelectorAll('.picture').forEach(function (picture) {
       picture.remove();
     });
 
     pictures.forEach(function (picture, index) {
       fragment.appendChild(renderPicture(picture, index));
     });
-    galleryElement.appendChild(fragment);
+    gallery.appendChild(fragment);
   }
 
   window.gallery = {

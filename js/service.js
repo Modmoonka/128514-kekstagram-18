@@ -17,15 +17,15 @@
     xhr.timeout = NETWORK_TIMEOUT;
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === window.util.http.CODE.OK) {
+      if (xhr.status === window.util.Http.CODE.OK) {
         onSuccess(xhr.response);
       } else {
-        onError(window.util.http.ERROR[xhr.status] || window.util.http.ERROR.unknown);
+        onError(window.util.Http.ERROR[xhr.status] || window.util.Http.ERROR.unknown);
       }
     });
 
     xhr.addEventListener('error', function () {
-      onError(window.util.http.ERROR[xhr.status] || window.util.http.ERROR.unknown);
+      onError(window.util.Http.ERROR[xhr.status] || window.util.Http.ERROR.unknown);
     });
 
     xhr.addEventListener('timeout', function () {
