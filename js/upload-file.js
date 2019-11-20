@@ -48,7 +48,7 @@
       blurFocus(DOM.comment.comment);
     });
 
-    DOM.hashTag.hashTag.addEventListener('focus', function() {
+    DOM.hashTag.hashTag.addEventListener('focus', function () {
       DOM.form.removeEventListener('keydown', onPopupEscPress);
       blurFocus(DOM.hashTag.hashTag);
     });
