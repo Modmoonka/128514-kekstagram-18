@@ -40,7 +40,7 @@
     return DOMcomments;
   }
 
-  function renderFragment() {
+  function onLoaderClick() {
     if (DOMcomments.length >= COUNT_COMMENTS) {
       countShow += COUNT_COMMENTS;
       DOM.bigPicture.commentsCountShow.textContent = countShow;
@@ -70,11 +70,9 @@
     DOM.bigPicture.commentsCount.textContent = picture.comments.length;
     DOM.bigPicture.socialCaption.textContent = picture.description;
     getCommentsOfPicture(picture);
-    renderFragment();
+    onLoaderClick();
 
-    DOM.bigPicture.loader.addEventListener('click', function () {
-      renderFragment();
-    });
+    DOM.bigPicture.loader.addEventListener('click', onLoaderClick);
   }
 
   DOM.bigPicture.btnCancel.addEventListener('click', function () {
